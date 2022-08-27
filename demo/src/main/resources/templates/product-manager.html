@@ -1,0 +1,654 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+
+<head>
+    <title>Nura Admin - Slider config</title>
+    <meta name="description" content="Slider config | Nura Admin">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Your website">
+   	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+    <!-- Bootstrap CSS -->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Font Awesome CSS -->
+    <link href="/assets/font-awesome/css/all.css" rel="stylesheet" type="text/css" />
+
+    <!-- Custom CSS -->
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+    	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    
+    
+</head>
+
+<body class="adminbody">
+
+    <div id="main">
+
+        <!-- top bar navigation -->
+        <span th:insert="header-admin::header-admin"></span>
+        <!-- End Navigation -->
+
+        <!-- Left Sidebar -->
+        <span th:insert="left-menu-admin::left-menu-admin"></span>
+        <!-- alert -->
+        <span th:if="${error}">
+        	<script th:inline="javascript">
+                $(document).ready(function(){
+                	$(window).on('load', function () {
+                		var error=[[${error}]];
+                		swal(error, {
+                            icon: "error",
+                        });
+                	});
+                });
+            </script>
+        </span>
+        <span th:if="${success}">
+        	<script th:inline="javascript">
+                $(document).ready(function(){
+                	$(window).on('load', function () {
+                		var success=[[${success}]];
+                		swal(success, {
+                            icon: "success",
+                        });
+                	});
+                });
+            </script>
+        </span>
+        <!-- End Sidebar -->
+		<div class="wrap-header loader-js">
+			<div class="loader" style="position:fixed;top:380px;left: 725px;"></div>
+		</div>
+        <div class="content-page">
+
+            <!-- Start content -->
+            <div class="content">
+
+                <div class="container-fluid">
+
+
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="breadcrumb-holder">
+                                <h1 class="main-title float-left">Slider config</h1>
+                                <ol class="breadcrumb float-right">
+                                    <li class="breadcrumb-item">Home</li>
+                                    <li class="breadcrumb-item active">Slider config</li>
+                                </ol>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end row -->
+
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+                            <div class="card mb-3">
+
+                                <div class="card-header">
+
+                                    <span class="pull-right"><button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_add_slide" id="add-new"><i class="fas fa-plus" aria-hidden="true"></i> Add new slide</button></span>
+                                    <h3><i class="fas fa-photo-video"></i> Slider</h3>
+
+                                    <div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-labelledby="modal_add_slide" aria-hidden="true" id="modal_add_slide">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                               <form th:action="@{/admin/addProduct}" th:object="${productDto}" method="post" id="form" enctype="multipart/form-data">
+
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Add new slider image</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+														 <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label>Product ID</label>
+                                                                    <input class="form-control" id="productId" th:field="*{ID}" type="text" readonly/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label>Product Name</label>
+                                                                    <input class="form-control" id="productName" th:field="*{productName}" type="text" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Color</label>
+                                                                    <select class="form-control" th:field="*{colorId}" id="color">
+                                                                        <option value="0" selected hidden>--Choose color--</option>
+                                                                        <option  th:each="itemColor : ${listColor}" th:text="${itemColor.colorName}" th:value="${itemColor.colorID}"></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Size</label>
+                                                                    <select class="form-control" id="size" th:field="*{sizeId}"  >
+                                                                        <option value="0" selected hidden>--Choose size--</option>
+                                                                        <option th:each="itemSize : ${listSize}" th:text="${itemSize.sizeName}" th:value="${itemSize.sizeID}"></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" >
+                                                            <div class="col-lg-6"  >
+                                                                <div class="form-group">
+                                                                    <label>Quantity</label>
+                                                                    <input class="form-control" th:field="*{quantity}" type="number" value="1" id="quantity"  required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Price</label>
+                                                                    <input class="form-control" th:field="*{price}" id="price" step="any" type="number" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Slide image (required):</label> 
+                                                            <br />
+                                                            <img alt="image" class="img-fluid img_slider" id="imgP" src="\images\product-02.jpg" style="margin-left:5px ;"/>
+                                                            <br />
+                                                            <br />
+                                                            <input type="file" th:field="*{imgFile}"  required>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="submit" id="submitAdd" class="btn btn-primary" >Add slider image</button>
+                                                    </div>
+
+                                                </form>
+                                                <script type="text/javascript">
+                                                    $(document).ready(function(){
+                                                    	
+                                                        $("#color").change(function() {
+                                                            $("#size").prop( "disabled", false );
+                                                        });
+                                                        $("#size").change(function() {
+                                                        	
+                                                            $("#quantity").prop( "disabled", false );
+                                                            $("#submit").prop( "disabled", false );
+                                                            
+                                                        });
+                                                        $("#add-new").click(function() {
+                                                        	 $("#size").prop( "disabled", true );
+                                                        	 $("#quantity").prop( "disabled", true );
+                                                             $("#submit").prop( "disabled", true );
+                                                             $("#size option").each(function(i){
+							 								        $(this).removeAttr("selected");
+							 								    });
+							 									$("#color option").each(function(i){
+							 								        $(this).removeAttr("selected");
+							 								    });
+                                                        });
+                                                    });
+                                                </script>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="modal fade custom-modal" tabindex="-1" role="dialog" aria-labelledby="modal_update_product" aria-hidden="true" id="modal_update_product">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <form th:action="@{/admin/updateProduct}" th:object="${productDto}" th:method="put" id="formUpdate" enctype="multipart/form-data">
+
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Add new slider image</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                    </div>
+
+                                                    <div class="modal-body">
+														 <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label>Product ID</label>
+                                                                    <input class="form-control" id="productIdUpdate" th:field="*{ID}" type="text" readonly/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group">
+                                                                    <label>Product Name</label>
+                                                                    <input class="form-control" id="productNameUpdate" th:field="*{productName}" type="text" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Color</label>
+                                                                    <select class="form-control" th:field="*{colorId}" id="colorUpdate">
+                                                                        <option value="0" selected hidden>--Choose color--</option>
+                                                                        <option  th:each="itemColor : ${listColor}" th:text="${itemColor.colorName}" th:value="${itemColor.colorID}"></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Size</label>
+                                                                    <select class="form-control" id="sizeUpdate" th:field="*{sizeId}"  >
+                                                                        <option value="0" selected hidden>--Choose size--</option>
+                                                                        <option th:each="itemSize : ${listSize}" th:text="${itemSize.sizeName}" th:value="${itemSize.sizeID}"></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" >
+                                                            <div class="col-lg-6"  >
+                                                                <div class="form-group">
+                                                                    <label>Quantity</label>
+                                                                    <input class="form-control" th:field="*{quantity}" type="number" value="1" id="quantityUpdate"  required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="form-group">
+                                                                    <label>Price</label>
+                                                                    <input class="form-control" th:field="*{price}" id="priceUpdate" step="any" type="number" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Slide image (required):</label> 
+                                                            <br />
+                                                            <img alt="image" class="img-fluid img_slider" id="imgPUpdate" src="\images\product-02.jpg" style="margin-left:5px ;"/>
+                                                            <br />
+                                                            <br />
+                                                            <input type="file" th:field="*{imgFile}"  required>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="submit" id="submitUpdate" class="btn btn-primary" >Add slider image</button>
+                                                    </div>
+
+                                                </form>
+                                                <script type="text/javascript">
+                                                    $(document).ready(function(){
+                                                    	
+                                                        $("#colorUpdate").change(function() {
+                                                            $("#sizeUpdate").prop( "disabled", false );
+                                                            var colorId=$(this).val();
+                                                        	var sizeId=$("#sizeUpdate").val();
+                                                        	if(sizeId=='0')
+							 									sizeId=null;
+						 									if(colorId=='0')
+							 									colorId=null;
+                                                        	var productID=$("#productIdUpdate").val();
+                                                            $.ajax({
+						 										type : "GET",
+									            	            contentType : "application/json",
+									            	            url : "/searchAPI",
+									            	            dataType : 'json',
+									            	            data: {id: productID,sizeId: sizeId, colorId: colorId},
+									            	            cache: false,
+									            	            success: function (data) {
+									            	            	$("#quantityUpdate").val(data);
+									            	            },
+									            	            error: function (data) {
+									            	            	alert( "error");
+									            	            },
+						 									});
+                                                        });
+                                                        $("#sizeUpdate").change(function() {
+                                                        	var colorId=$("#colorUpdate").val();
+                                                        	var sizeId=$(this).val();
+                                                        	if(sizeId=='0')
+							 									sizeId=null;
+						 									if(colorId=='0')
+							 									colorId=null;
+                                                        	var productID=$("#productIdUpdate").val();
+                                                            $("#quantityUpdate").prop( "disabled", false );
+                                                            $("#submitUpdate").prop( "disabled", false );
+                                                            $.ajax({
+						 										type : "GET",
+									            	            contentType : "application/json",
+									            	            url : "/searchAPI",
+									            	            dataType : 'json',
+									            	            data: {id: productID,sizeId: sizeId, colorId: colorId},
+									            	            cache: false,
+									            	            success: function (data) {
+									            	            	$("#quantityUpdate").val(data);
+									            	            },
+									            	            error: function (data) {
+									            	            	alert( data);
+									            	            },
+						 									});
+                                                        });
+                                             
+                                                    });
+                                                </script>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- end card-header -->
+
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:130px">Image</th>
+                                                    <th style="min-width:150px">Product Name</th>
+                                                    <th style="min-width:80px">Type</th>
+                                                    <th style="min-width:50px">Color</th>
+                                                    <th style="min-width:50px">Size</th>
+                                                    <th style="min-width:50px">Quantity</th>
+                                                    <th style="min-width:80px">Price</th>
+                                                    <th style="min-width:80px">Status</th>
+                                                    <th style="min-width:140px">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="item : ${listProduct}">
+                                                    <td>
+                                                        <img alt="image" class="img-fluid img_slider" th:id="'img-p'+${item.productID}" th:src="@{'/'+${item.imgUrl}}" style="margin-left:5px ;"/>
+                                                    </td>
+
+                                                    <td>
+                                                        <h6 th:id="'name-p'+${item.productID}" th:text="${item.name}"></h6>
+                                                      
+                                                    </td>
+
+                                                    <td>
+                                                        Jean
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" th:id="'color-p'+${item.productID}">
+                                                            <option value="0" selected>All</option>
+                                                            <option  th:each="itemColor : ${listColor}" th:text="${itemColor.colorName}" th:value="${itemColor.colorID}"></option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" th:id="'size-p'+${item.productID}">
+                                                            <option value="0" selected>All</option>
+                                                            <option th:each="itemSize : ${listSize}" th:text="${itemSize.sizeName}" th:value="${itemSize.sizeID}"></option>
+
+                                                        </select>
+
+                                                    </td>
+                                                    <td th:id="'quantity-p'+${item.productID}" th:text="${item.quantity}">
+                                                    </td>
+                                                    <td th:text="${item.price}">
+                                                        
+                                                     </td>
+                                                      <td>
+                                                        <label class="switch" th:if="${item.status}=='Active'">
+                                                            <input type="checkbox" th:id="'status-p'+${item.productID}" checked>
+                                                            <span th:id="'statusName-p'+${item.productID}" class="slider round"></span>
+                                                        </label>
+                                                         <label class="switch" th:if="${item.status}=='Inactive'">
+                                                            <input type="checkbox" th:id="'status-p'+${item.productID}">
+                                                            <span th:id="'statusName-p'+${item.productID}" class="slider round"></span>
+                                                        </label>
+                                                     </td>
+                                                    <td>
+                                                        <span class="btn btn-primary btn-sm btn-block" th:id="'edit-p'+${item.productID}" data-toggle="modal" data-target="#modal_update_product"><i class="fas fa-search"></i> Edit slide</span>
+
+                                                    </td>
+                                                    <script type="text/javascript">
+							 							$(document).ready(function(){
+							 								var productID=[[${item.productID}]]
+							 								
+							 								$("#add-new").click(function() {
+							 									$("#size").prop( "disabled", true );
+						 									  	$("#quantity").prop( "disabled", true );
+	                                                            $("#submit").prop( "disabled", true );
+							 									$("#productName").val("");
+							 									$("#imgP").attr('src',"https://via.placeholder.com/180x120");
+							 									$("#price").val(0);
+							 								});
+							 								$("#edit-p"+productID).click(function() {
+							 									var productName= $("#name-p"+productID).text();
+							 									var price=[[${item.price}]];
+							 									var img=$("#img-p"+productID).attr('src');
+							 									var sizeId=$("#size-p"+productID).val();
+							 									var colorId=$("#color-p"+productID).val();
+							 									$("#sizeUpdate").prop( "disabled", true );
+						 									  	$("#quantityUpdate").prop( "disabled", true );
+	                                                            $("#submitUpdate").prop( "disabled", true );
+							 									$("#productNameUpdate").val(productName);
+							 									$("#productIdUpdate").val(productID);
+							 									$("#imgPUpdate").attr('src',img);
+							 									$("#priceUpdate").val(price);
+							 									$("#sizeUpdate option").each(function(i){
+							 								        if($(this).val()==sizeId){
+							 								        	$(this).attr('selected','selected');
+							 								        }
+							 								        else {
+							 								        	$(this).removeAttr("selected");
+							 								        }
+							 								    });
+							 									$("#colorUpdate option").each(function(i){
+							 										if($(this).val()==colorId){
+							 								        	$(this).attr('selected','selected');
+							 								        }
+							 								        else {
+							 								        	$(this).removeAttr("selected");
+							 								        }
+							 								    });
+							 									
+							 									
+							 									if(sizeId!='0'){
+							 										$("#sizeUpdate").prop( "disabled", false );
+							 										$("#quantityUpdate").prop( "disabled", false);
+							 									}
+							 									
+							 									
+							 								});
+							 								 $("#color-p"+productID).change(function() {
+							 									var sizeId=$("#size-p"+productID).val();
+								 								if(sizeId=='0')
+								 									sizeId=null;
+							 									var value=$(this).val();
+							 									if(value=='0')
+								 									value=null;
+							 									$.ajax({
+							 										type : "GET",
+										            	            contentType : "application/json",
+										            	            url : "/searchAPI",
+										            	            dataType : 'json',
+										            	            data: {id: productID,sizeId: sizeId, colorId: value},
+										            	            cache: false,
+										            	            success: function (data) {
+										            	            	$("#quantity-p"+productID).html(data);
+										            	            	$('.loader-js').removeClass('show-header');
+										            	            },
+										            	            error: function (data) {
+										            	            	alert( "error");
+										            	            	$('.loader-js').removeClass('show-header');
+										            	            },
+							 									});
+							 								 });
+							 								$("#size-p"+productID).change(function() {
+							 									var colorId=$("#color-p"+productID).val();
+								 								if(colorId=='0')
+								 									colorId=null;
+							 									 var value=$(this).val();
+							 									if(value=='0')
+								 									value=null;
+							 									$('.loader-js').addClass('show-header');
+							 									$.ajax({
+							 										type : "GET",
+										            	            contentType : "application/json",
+										            	            url : "/searchAPI",
+										            	            dataType : 'json',
+										            	            data: {id: productID,sizeId: value, colorId: colorId},
+										            	            cache: false,
+										            	            success: function (data) {
+										            	            	$("#quantity-p"+productID).html(data);
+										            	            	$('.loader-js').removeClass('show-header');
+										            	            },
+										            	            error: function (data) {
+										            	            	alert( "error");
+										            	            	$('.loader-js').removeClass('show-header');
+										            	            },
+							 									});
+							 								 });
+							 								 $(window).on('load', function () {
+							 					                if($("#status-p"+productID).is(':checked')){
+							 					                    $("#statusName-p"+productID).addClass('special');
+							 					                }
+							 					                else {
+							 					                    $("#statusName-p"+productID).removeClass('special');
+							 					                }
+							 					            });
+							 					            $("#status-p"+productID).change(function() {
+							 					                if($("#status-p"+productID).is(':checked')){
+							 					                	$.ajax({
+											            	            type : "PUT",
+											            	            url : "/admin/updateStatusProduct",
+											            	            dataType : 'json',
+											            	            data: {id: productID,status: 'Active'},
+											            	            success: function (data) {
+											            	            	$("#statusName-p"+productID).addClass('special');
+											            	            },
+
+											            	            error: function (data) {
+											            	            	alert(data.responseText);
+											            	            },
+											            	       });
+							 					                }
+							 					                else {
+							 					                	$.ajax({
+											            	            type : "PUT",
+											            	            url : "/admin/updateStatusProduct",
+											            	            dataType : 'json',
+											            	            data: {id: productID,status: 'Inactive'},
+											            	            success: function (data) {
+											            	            	$("#statusName-p"+productID).removeClass('special');
+											            	            },
+
+											            	            error: function (data) {
+											            	            	alert(data.responseText);
+											            	            },
+											            	       });
+							 					                    
+							 					                }
+							 					        	});
+							 							});
+						 							</script>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+									<nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                          <li class="page-item" th:if="${currentPage != 1}" >
+                                          	<a class="page-link" th:href="@{'/admin/Product?page=' + ${currentPage-1}}">Previous </a>
+                                         </li> 
+                                          <li class="page-item" th:if="${currentPage != 1}" >
+                                          	<a class="page-link" href="/admin/Product">1</a>
+                                          </li>
+                                          <li class="page-item active" th:unless="${currentPage != 1}">
+                                          	<a class="page-link">1</a>
+                                          </li>
+											<span th:if="${countPage > 1}" th:each="i: ${#numbers.sequence(2, countPage)}">
+		                                          <li class="page-item" th:if="${currentPage != i}" >
+		                                          	<a class="page-link" th:href="@{'/admin/Product?page=' + ${i}}">[[${i}]]</a>
+		                                          </li>
+		                                          <li class="page-item active" th:unless="${currentPage != i}">
+		                                          	<a class="page-link">[[${i}]]</a>
+		                                          </li>
+	                                          </span>
+                                       		<li class="page-item" th:if="${currentPage < countPage}"  >
+                                       			<a class="page-link" th:href="@{'/admin/Product?page=' + ${currentPage+1}}">Next</a>
+                                   			</li>
+                                          
+                                        </ul>
+                                      </nav>
+                                </div>
+                                <!-- end card-body -->
+
+                            </div>
+                            <!-- end card -->
+
+                        </div>
+                        <!-- end col -->
+
+                    </div>
+                    <!-- end row -->
+
+
+
+                </div>
+                <!-- END container-fluid -->
+
+            </div>
+            <!-- END content -->
+
+        </div>
+        <!-- END content-page -->
+
+        <footer class="footer">
+            <span class="text-right">
+                Copyright <a target="_blank" href="#">Your Company</a>
+            </span>
+            <span class="float-right">
+                <!-- Copyright footer link MUST remain intact if you download free version. -->
+                <!-- You can delete the links only if you purchased the pro or extended version. -->
+                <!-- Purchase the pro or extended version with PHP version of this template: https://bootstrap24.com/template/nura-admin-4-free-bootstrap-admin-template -->
+                Powered by <a target="_blank" href="https://bootstrap24.com" title="Download free Bootstrap templates"><b>Bootstrap24.com</b></a>
+            </span>
+        </footer>
+
+        <script src="/assets/js/modernizr.min.js"></script>
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/moment.min.js"></script>
+
+        <script src="/assets/js/popper.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+
+        <script src="/assets/js/detect.js"></script>
+        <script src="/assets/js/fastclick.js"></script>
+        <script src="/assets/js/jquery.blockUI.js"></script>
+        <script src="/assets/js/jquery.nicescroll.js"></script>
+
+        <!-- App js -->
+        <script src="/assets/js/admin.js"></script>
+        <script src="/assets/plugins/sweetalert/sweetalert.min.js"></script>
+	
+    </div>
+    <!-- END main -->
+
+</body>
+
+</html>

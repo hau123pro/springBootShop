@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.csrf().disable()
 			.authorizeHttpRequests()
 			//cho phép các link trong ".." được xác thực 
+//			.antMatchers("/admin/**").permitAll()
 			.antMatchers("/css/**").permitAll()
 			.antMatchers("/fonts/**").permitAll()
 			.antMatchers("/images/**").permitAll()
@@ -61,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/home").permitAll()
 			.antMatchers("/login*").permitAll()
 			.antMatchers("/register/**").permitAll()
+			.antMatchers("/blog/**").permitAll()
 			// còn lại phải xác thực bằng cách login
 			.anyRequest().authenticated()
 			.and()

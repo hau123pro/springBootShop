@@ -62,5 +62,7 @@ public class Product {
 	@JsonIgnore
 	private Set<OrderDetail> listOrderDetail;
 	
+	@Column(name="Status")
+	private String status;
 
 }

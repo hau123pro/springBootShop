@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import javax.servlet.ServletContext;
 import javax.validation.Valid;
@@ -28,10 +29,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.laptrinhjava.demo.DTO.Product;
+import com.laptrinhjava.demo.DTO.ProductDTO;
 import com.laptrinhjava.demo.DTO.User;
 import com.laptrinhjava.demo.DTO.UserRegistration;
 import com.laptrinhjava.demo.DTO.test;
 import com.laptrinhjava.demo.exception.ErrorException;
+import com.laptrinhjava.demo.repository.ProductRepository;
 import com.laptrinhjava.demo.service.UserService;
 
 @Controller
@@ -42,6 +46,9 @@ public class RegisterController {
 	UserService userService;
 	@Autowired
 	ServletContext application;
+	
+	@Autowired
+	ProductRepository productRepository;
 	//trả về trang đăng kí
 	@GetMapping
 	public String index(Model model) {
@@ -51,7 +58,12 @@ public class RegisterController {
 	}
 	//Thêm mới 1 user 
 	@PostMapping
-	public String addUser(@ModelAttribute UserRegistration u,BindingResult result,Model model,RedirectAttributes redirectAttributes) {
+	public String addUser(
+							@ModelAttribute UserRegistration u,
+							BindingResult result,
+							Model model,
+							RedirectAttributes redirectAttributes
+						) {
 		System.out.println(u.getEmail());
 		if(result.hasErrors()) {
 			redirectAttributes.addFlashAttribute("errors", "!!!");
@@ -76,28 +88,51 @@ public class RegisterController {
 	//test api send giá trị null attribute
 	@PostMapping(value="/api")
 	@ResponseBody
-	public String addUser2(@RequestBody @Valid UserRegistration u,BindingResult result,Model model) {
+	public String addUser2(@ModelAttribute ProductDTO u,BindingResult result,Model model) {
 		if(result.hasErrors()) {
 //			System.out.println(u.toString());
 			return "error";
 		}
 //		System.out.println(u.toString());
-		return "hehe";
+		Optional<Product> optional=productRepository.findProductByName(u.getProductName());
+		Product product=optional.orElse(null);
+		if(product!=null)
+		return product.getName();
+		else return "errorrr";
 
 	}
 	//test send image file and json
 	@PostMapping(value="/img",consumes = { "multipart/form-data" })
 	@ResponseBody
-	public String testImg(@RequestParam ("File") MultipartFile u ,@RequestParam ("json") String a) throws JsonMappingException, JsonProcessingException{
-		Path path=Paths.get("upload/");
-		try {
-			InputStream inputStream=u.getInputStream();
-			Files.copy(inputStream, path.resolve(u.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		test b=object.readValue(a, test.class);
-		System.out.println(b.getImgUrl());
+	public String testImg(
+							@RequestParam ("File") MultipartFile u ,
+							@RequestParam (value="json",
+							required=false) String a) 
+					throws JsonMappingException, JsonProcessingException{
+		Path path=Paths.get("src/main/resources/static/images/");
+		Path resolvedPath
+        = path.resolve(u.getOriginalFilename());
+		 System.out.println("Resolved Path:"
+                 + resolvedPath);
+		 if(Files.exists(resolvedPath) && !Files.isDirectory(resolvedPath)) {
+		      System.out.println("File exists!");
+		  }
+		 else {
+			try {
+				InputStream inputStream=u.getInputStream();
+				Files.copy(inputStream, resolvedPath, StandardCopyOption.REPLACE_EXISTING);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		 }
+//		test b=object.readValue(a, test.class);
+//		System.out.println(b.getImgUrl());
+//		System.out.println(u.getOriginalFilename());
+//		Optional<String> n=Optional.ofNullable("s").filter(f->f.contains("."))
+//													.map(f->f.substring(u.getOriginalFilename().lastIndexOf(".")+1));
+//		
+//		String t=n.orElse(null);
+//		System.out.println(n);
 		return "error";
 	}
 	@GetMapping(value="/test")

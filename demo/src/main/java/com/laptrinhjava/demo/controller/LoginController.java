@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -34,20 +35,14 @@ public class LoginController {
 				if(request.getHeader("referer").equals("http://localhost:8080/login")==false) {
 				httpSession.setAttribute("url_pre",request.getHeader("referer") );
 				
-		//			try {
-		//				User user=userService.getUser(String.valueOf(request.getUserPrincipal().getName()));
-		//				httpSession.setAttribute("user", user);
-		//				httpSession.setAttribute("countItemCart", user.getCart().getListCartItem().size());
-		//			}
-		//			catch (ErrorException e) {
-		//				
-		//			}
+		
 				}
 				
 			}
 			else httpSession.setAttribute("url_pre","http://localhost:8080/home" );
 		 return "login";
 	}
+	
 	
 	
 }

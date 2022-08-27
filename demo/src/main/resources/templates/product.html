@@ -293,7 +293,7 @@
 				<a th:if="${currentPage != i}" th:href="@{'/products?page=' + ${i}}" class="flex-c-m how-pagination1 trans-04 m-all-7 js-page">
 					[[${i}]]
 				</a>
-				<a th:unless="${currentPage != i}" href="/products" class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1 js-page">
+				<a th:unless="${currentPage != i}"  class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1 js-page">
 					[[${i}]]
 				</a>
 				</span>

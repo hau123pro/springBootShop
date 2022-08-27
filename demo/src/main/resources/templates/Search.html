@@ -281,7 +281,7 @@
 		</div>
 		<div class="flex-c-m flex-w w-full p-t-38">
 			<span th:if="${countPage > 0}">
-				<a th:if="${currentPage != 1}"  th:href="@{'/search?keyWord='+ ${keyWord} +'page=' + ${currentPage-1}}" class="flex-c-m how-pagination1 trans-04 m-all-7 js-page">
+				<a th:if="${currentPage != 1}"  th:href="@{'/search?keyWord='+ ${keyWord} +'&page=' + ${currentPage-1}}" class="flex-c-m how-pagination1 trans-04 m-all-7 js-page">
 					<
 				</a>
 				<a th:if="${currentPage != 1}" href="'/search?keyWord='+ ${keyWord}" class="flex-c-m how-pagination1 trans-04 m-all-7 js-page">
@@ -297,7 +297,7 @@
 				<span th:if="${countPage > 1}">
 				<span th:each="i: ${#numbers.sequence(2, countPage)}">
 				
-				<a th:if="${currentPage != i}" th:href="@{'/search?keyWord='+ ${keyWord} + 'page=' + ${i}}" class="flex-c-m how-pagination1 trans-04 m-all-7 js-page">
+				<a th:if="${currentPage != i}" th:href="@{'/search?keyWord='+ ${keyWord} + '&page=' + ${i}}" class="flex-c-m how-pagination1 trans-04 m-all-7 js-page">
 					[[${i}]]
 				</a>
 				<a th:unless="${currentPage != i}" th:href="@{'/search?keyWord='+ ${keyWord}"  class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1 js-page">
@@ -305,7 +305,7 @@
 				</a>
 				</span>
 				</span>
-				<a th:if="${currentPage < countPage}"  th:href="@{'/search?keyWord='+ ${keyWord} +'page=' + ${currentPage+1}}" class="flex-c-m how-pagination1 trans-04 m-all-7 js-page">
+				<a th:if="${currentPage < countPage}"  th:href="@{'/search?keyWord='+ ${keyWord} +'&page=' + ${currentPage+1}}" class="flex-c-m how-pagination1 trans-04 m-all-7 js-page">
 					>
 				</a>
 			</div>

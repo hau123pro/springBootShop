@@ -10,9 +10,7 @@
 					</div>
 
 					<div class="right-top-bar flex-w h-full">
-						<a href="#" class="flex-c-m trans-04 p-lr-25">
-							Help & FAQs
-						</a>
+						
 
 						<a th:href="@{'/login/'+${session.username}}" class="flex-c-m trans-04 p-lr-25" th:if="${session.username}">
 						Welcom: 
@@ -25,6 +23,7 @@
 						<a href="/logout" class="flex-c-m trans-04 p-lr-25" th:if="${session.username}">
 							Logout
 						</a>
+						
 					</div>
 				</div>
 			</div>
@@ -47,6 +46,10 @@
 
 							<li>
 								<a href="/products">Shop</a>
+							</li>
+							
+							<li>
+								<a href="/admin/Product">manager</a>
 							</li>
 							
 							<li  th:if="${session.username}">
